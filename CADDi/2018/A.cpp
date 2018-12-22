@@ -53,12 +53,12 @@ int main()
             break;
         }
     }
-    ll sum=P;
+    ll sum=1;
+    if(N==1)sum=P;
     REP(j,1000005)
     {
         ll n =pn[j]/N;
-        if(n==0)continue;
-        sum*=(j*n);
+        sum*=pow(j,n);
     }
     cout<<sum<<endl;
     return 0;

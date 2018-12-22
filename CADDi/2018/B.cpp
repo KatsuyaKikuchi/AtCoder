@@ -22,6 +22,14 @@ int main()
     {
         cin>>a[i];
     }
-    sort(a,a+N);
+    string ans ="second";
+    REP(i,N)
+    {
+        if(a[i]%2==1)
+        {
+            ans="first";
+        }
+    }
+    cout<<ans<<endl;
     return 0;
 }
