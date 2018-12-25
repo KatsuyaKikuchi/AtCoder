@@ -11,25 +11,7 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-ll a[100005];
-
 int main()
 {
-
-    int N;
-    cin >> N;
-    REP(i, N)
-    {
-        cin >> a[i];
-    }
-    string ans = "second";
-    REP(i, N)
-    {
-        if (a[i] % 2 == 1)
-        {
-            ans = "first";
-        }
-    }
-    cout << ans << endl;
     return 0;
 }
