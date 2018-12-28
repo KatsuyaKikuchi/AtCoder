@@ -4,17 +4,17 @@ struct Combination
 {
     void init(ll n)
     {
-        inv.resize(n + 1);
-        pos.resize(n + 1);
-        pos[0] = 1;
-        inv[0] = 1;
+        mNumTbl.resize(n + 1);
+        mInverseNumTbl.resize(n + 1);
+        mNumTbl[0] = 1;
+        mInverseNumTbl[0] = 1;
         FOR(i, n + 1, 1)
         {
-            pos[i] = (pos[i - 1] * i) % MOD;
+            mNumTbl[i] = (mNumTbl[i - 1] * i) % MOD;
         }
         FOR(i, n + 1, 1)
         {
-            inv[i] = modpow(pos[i]);
+            mInverseNumTbl[i] = modpow(mNumTbl[i]);
         }
     }
 
@@ -22,9 +22,10 @@ struct Combination
     {
         if (n < r || n < 0)
             return 0;
-        return (((pos[n] * inv[r]) % MOD) * inv[n - r]) % MOD;
+        return (((mNumTbl[n] * mInverseNumTbl[r]) % MOD) * mInverseNumTbl[n - r]) % MOD;
     }
 
+    //! バイナリ方で累乗を計算
     ll modpow(ll n)
     {
         ll s = 1, p = n;
@@ -38,6 +39,6 @@ struct Combination
         return s;
     }
 
-    vector<ll> inv;
-    vector<ll> pos;
+    vector<ll> mInverseNumTbl;
+    vector<ll> mNumTbl;
 };
