@@ -19,6 +19,7 @@ int main()
     {
         int n;
         cin >> n;
+        n--;
         U[n] = true;
     }
 
