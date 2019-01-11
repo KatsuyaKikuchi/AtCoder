@@ -23,5 +23,11 @@ struct PrimeList
         }
     }
 
+    //! i番目の素数を取得
+    int get(int i)
+    {
+        return mPrimeList[i];
+    }
+
     vector<int> mPrimeList;
 };
