@@ -16,7 +16,6 @@ ll B[1005];
 
 //! Nを置ける場所が何通りあるか
 ll T[1000005];
-ll Map[1005][1005];
 //! 場所が決まっている
 bool S[1000005];
 
@@ -33,6 +32,7 @@ int main()
         cin >> B[i];
     }
 
+    //! A/Bに同じ数字が書かれている場合には0を出力
     bool same = false;
     REP(i, N)
     {
@@ -55,14 +55,15 @@ int main()
         cout << 0 << endl;
         return 0;
     }
+
     REP(h, N)
     {
         REP(w, M)
         {
-            Map[h][w] = std::min(A[h], B[w]);
-            T[Map[h][w]]++;
+            int t = std::min(A[h], B[w]);
+            T[t]++;
             if (A[h] == B[w])
-                S[Map[h][w]] = true;
+                S[t] = true;
         }
     }
 
