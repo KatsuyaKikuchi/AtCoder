@@ -11,10 +11,16 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-pll A[100005];
+struct Sushi
+{
+    ll t;
+    ll d;
+    bool e;
+};
+
+Sushi S[100005];
 bool V[100005];
 bool U[100005];
-bool E[100005];
 
 int main()
 {
@@ -24,85 +30,57 @@ int main()
     ll mv = 0;
     REP(i, N)
     {
-        cin >> A[i].first >> A[i].second;
-        if (!V[A[i].first])
+        cin >> S[i].t >> S[i].d;
+        if (!V[S[i].t])
         {
             mv++;
-            V[A[i].first] = true;
+            V[S[i].t] = true;
         }
     }
 
-    //! 食べられる最大の種類数
-    mv = std::min(K, mv);
+    sort(S, S + N, [](Sushi a, Sushi b) { return a.d > b.d; });
+
+    mv = std::min(K, mv); //! 食べられる最大の種類数
+    int v = 0;            //! 被っているものを食べた数
+
     ll sum = 0;
-    int k = 0; //! 食べた数
-    int v = 0; //! 被っているものを食べた数
-    sort(A, A + N, [](pll a, pll b) { return a.second > b.second; });
-    int l = 0;
-    int i = 0;
-    while (i < N)
+    int i = 0, j = 0;
+    REP(k, K)
     {
-        if (k == K)
-            break;
-        if (E[i])
+        for (; i < N; ++i)
         {
-            ++i;
+            if (!S[i].e)
+                break;
+        }
+        for (; j < N; ++j)
+        {
+            if (!S[j].e && !U[S[j].t])
+                break;
+        }
+
+        if (v + mv + 1 <= K)
+        {
+            //! mvを減らさずiを食べる
+            sum += S[i].d;
+            if (U[S[i].t])
+                v++;
+            S[i].e = U[S[i].t] = true;
             continue;
         }
-        if (!U[A[i].first])
+
+        if (j >= N || 2 * mv - 1 + S[j].d < S[i].d)
         {
-            sum += A[i].second;
-            U[A[i].first] = true;
-            E[i] = true;
-            i++;
-        }
-        else
-        {
-            if (v + mv + 1 <= K)
-            {
+            //! mvを減らしてiを食べる
+            sum += S[i].d;
+            if (U[S[i].t])
                 v++;
-                sum += A[i].second;
-                U[A[i].first] = true;
-                E[i] = true;
-                i++;
-            }
-            else
-            {
-                //! 既に食べた種類の中で一番大きなものを食べるか、食べていない種類の中で一番大きなものを食べるか選ぶ
-                bool e = false;
-                FOR(j, N, l)
-                {
-                    if (E[j])
-                        continue;
-                    if (U[A[j].first])
-                        continue;
-                    l = j;
-                    e = true;
-                    break;
-                }
-                if (!e)
-                    l = N;
-                //! 種類が減ることによって種類ボーナスは2mv-1減る。
-                if (!e || 2 * mv - 1 + A[l].second < A[i].second)
-                {
-                    //! 被ってるものを食べたほうがいい
-                    v++;
-                    mv--;
-                    sum += A[i].second;
-                    U[A[i].first] = true;
-                    E[i] = true;
-                    i++;
-                }
-                else
-                {
-                    //! 被っていないものを食べた方がいい
-                    sum += A[l].second;
-                    U[A[l].first] = true;
-                    E[l] = true;
-                }
-            }
+            S[i].e = U[S[i].t] = true;
+            mv--;
+            continue;
         }
-        ++k;
+        //! jを食べる
+        sum += S[j].d;
+        S[j].e = U[S[j].t] = true;
     }
     cout << sum + mv * mv << endl;
     return 0;
