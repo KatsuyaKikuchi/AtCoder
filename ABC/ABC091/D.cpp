@@ -18,11 +18,11 @@ ll C[200005];
 ll D[35];
 
 //! under以上になる最小のindex
-inline int getUnder(ll under)
+ll getUnder(ll under)
 {
     if (under <= 0)
         return 0;
-    int ok = N, ng = -1;
+    ll ok = N, ng = -1;
     while (abs(ok - ng) > 1)
     {
         int mid = (ok + ng) / 2;
@@ -38,9 +38,9 @@ inline int getUnder(ll under)
     return ok;
 }
 //! top未満になる最大のindex
-inline int getTop(ll top)
+ll getTop(ll top)
 {
-    int ok = -1, ng = N;
+    ll ok = -1, ng = N;
     while (abs(ok - ng) > 1)
     {
         int mid = (ok + ng) / 2;
@@ -67,49 +67,41 @@ int main()
     {
         cin >> B[i];
     }
-    REP(i, 30)
+    ll ans = 0;
+    ll bit = 1;
+    REP(i, 29)
     {
-        ll m = 0;
         D[i] = 0;
-        REP(j, i + 1)
-        {
-            m |= (1 << j);
-        }
+        bit <<= 1;
         REP(j, N)
         {
-            C[j] = (B[j] & m);
+            C[j] = (B[j] % bit);
         }
         sort(C, C + N);
-
-        ll u = pow((ll)2, i);
-        ll t = pow((ll)2, (i + 1));
+        ll t = (bit >> 1);
         REP(j, N)
         {
-            ll a = A[j] & m;
+            ll a = A[j] % bit;
             {
-                int ui = getUnder(u - a);
-                int ti = getTop(t - a);
+                ll ui = getUnder(t - a);
+                ll ti = getTop(2 * t - a);
                 if (ui <= ti)
                 {
                     D[i] += (ti - ui + 1);
                 }
             }
             {
-                int ui = getUnder(u + t - a);
-                int ti = getTop(2 * t - a);
+                ll ui = getUnder(3 * t - a);
+                ll ti = getTop(4 * t - a);
                 if (ui <= ti)
                 {
                     D[i] += (ti - ui + 1);
                 }
             }
         }
-    }
-
-    ll ans = 0;
-    REP(i, 30)
-    {
         ans |= ((D[i] % 2) << i);
     }
+
     cout << ans << endl;
     return 0;
 }
