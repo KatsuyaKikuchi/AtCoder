@@ -22,7 +22,6 @@ class SegmentTree
         while (N < n)
             N *= 2;
         node.resize(2 * N - 1, 0);
-        cout << N << endl;
     }
 
     void set(int left, int right, ll v, int k = 0, int l = 0, int r = -1)
@@ -30,8 +29,7 @@ class SegmentTree
         if (r < 0)
             r = N - 1;
 
-        cout << v << " " << l << " " << r << endl;
-        if (right <= l || r <= left)
+        if (right < l || r < left)
             return;
         if (left <= l && r <= right)
         {
@@ -53,10 +51,6 @@ class SegmentTree
 
     ll sum()
     {
-        REP(i, node.size())
-        {
-            cout << node[i] << endl;
-        }
         ll sum = 0;
         ll c = 1;
         while (c < N)
@@ -87,7 +81,7 @@ int main()
         r--;
         seg.set(l, r, t);
     }
-    //seg.calc();
+    seg.calc();
     cout << seg.sum() << endl;
     return 0;
 }
