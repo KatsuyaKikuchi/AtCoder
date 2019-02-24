@@ -13,46 +13,36 @@ const ll INF = (ll)1e15;
 
 ll L[10];
 //! [bitで表される竹を使って][長さiの竹を作るための]=MP
-ll dp[300][5];
-//! bitで表される竹を全て足した和
-ll T[300];
-int N, K[3];
+ll mp[300][5];
 
 int main()
 {
-    cin >> N >> K[0] >> K[1] >> K[2];
-    int m = pow(2, N);
+    int N, S[3];
+    cin >> N;
+    REP(i, 3)
+    {
+        cin >> S[i];
+    }
     REP(i, N)
     {
         cin >> L[i];
     }
-    sort(L, L + N);
-    REP(i, m)
-    {
-        ll sum = 0;
-        REP(j, N)
-        {
-            if (((i >> j) & 1) == 1)
-                sum += L[j];
-        }
-        T[i] = sum;
-        REP(j, 3)
-        {
-            dp[i][j] = INF;
-        }
-    }
 
+    int m = pow(2, N);
     FOR(i, m, 1)
     {
+        ll sum = 0;
         int n = 0;
         REP(j, N)
         {
-            if (((i >> j) & 1) == 1)
-                n++;
+            if (((i >> j) & 1) == 0)
+                continue;
+            n++;
+            sum += L[j];
         }
         REP(j, 3)
         {
-            dp[i][j] = std::min(dp[i][j], 10 * (n - 1) + abs(T[i] - K[j]));
+            mp[i][j] = 10 * (n - 1) + abs(sum - S[j]);
         }
     }
 
@@ -76,7 +66,7 @@ int main()
                 }
                 if (f)
                     continue;
-                min = std::min(min, dp[i][0] + dp[j][1] + dp[k][2]);
+                min = std::min(min, mp[i][0] + mp[j][1] + mp[k][2]);
             }
         }
     }
