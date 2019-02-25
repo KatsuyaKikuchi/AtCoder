@@ -39,8 +39,6 @@ ll solve(ll x)
             ut = mid;
     }
 
-    //cout << x << " " << S[s] << " " << T[t] << endl;
-
     ll min = INF;
     //! t,t-1,s,s-1を訪れる組み合わせで一番距離が短いもの
     for (int i = 0; i <= 1; ++i)
