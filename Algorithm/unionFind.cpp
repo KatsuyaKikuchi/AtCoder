@@ -1,18 +1,18 @@
 #include "base.hpp"
 
-struct UnionFind
+class UnionFind
 {
-    void init(int n)
+  public:
+    UnionFind(int n)
+        : mN(n)
     {
-        mN = n;
-        mNodeTbl.resize(mN);
-        mRankTbl.resize(mN);
-        REP(i, mN)
+        REP(i, n)
         {
-            mNodeTbl[i] = i;
-            mRankTbl[i] = 0;
+            mNodeTbl.push_back(i);
+            mRankTbl.push_back(0);
         }
     }
+
     int find(int x)
     {
         if (x == mNodeTbl[x])
@@ -41,6 +41,7 @@ struct UnionFind
         }
     }
 
+  private:
     int mN;
     vector<int> mNodeTbl;
     vector<int> mRankTbl;
