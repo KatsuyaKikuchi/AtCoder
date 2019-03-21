@@ -44,21 +44,7 @@ bool check(ll m)
             max = std::max(max, A[h][w]);
         }
     }
-    // if (m == 18)
-    // {
-    //     REP(h, H)
-    //     {
-    //         REP(w, W)
-    //         {
-    //             if (B[h][w])
-    //                 cout << "J";
-    //             else
-    //                 cout << "O";
-    //         }
-    //         cout << endl;
-    //     }
-    //         cout << endl;
-    // }
+
     if (max - min <= m)
     {
         return true;
