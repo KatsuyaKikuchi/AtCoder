@@ -3,6 +3,7 @@ using namespace std;
 
 typedef long long int ll;
 typedef pair<ll, ll> pll;
+typedef pair<int, int> pii;
 
 #define FOR(i, n, m) for (ll(i) = (m); (i) < (n); ++(i))
 #define REP(i, n) FOR(i, n, 0)
@@ -13,12 +14,12 @@ const ll INF = (ll)1e15;
 
 struct Rect
 {
-    pll ld;
-    pll ru;
+    pii ld;
+    pii ru;
 };
 
 Rect R[1005];
-int M[7500][7500];
+int16_t M[4005][4005];
 
 int nx[4] = {0, 1, 0, -1};
 int ny[4] = {1, 0, -1, 0};
@@ -35,7 +36,7 @@ int main()
         R[i].ru.first--;
         R[i].ru.second--;
     }
-    vector<ll> xs, ys;
+    vector<int> xs, ys;
     xs.push_back(0);
     xs.push_back(W - 1);
     ys.push_back(0);
@@ -95,20 +96,6 @@ int main()
         {
             M[h][w] += M[h - 1][w];
         }
-    }
-
-    REP(h, H)
-    {
-        REP(w, W)
-        {
-            if (M[h][w] > 0)
-                cout << '#';
-            else if (M[h][w] < 0)
-                cout << 'x';
-            else
-                cout << '.';
-        }
-        cout << endl;
     }
 
     ll n = 0;
