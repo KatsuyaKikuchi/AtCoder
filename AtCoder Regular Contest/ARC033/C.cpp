@@ -1,4 +1,15 @@
-#include "base.hpp"
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long int ll;
+typedef pair<ll, ll> pll;
+
+#define FOR(i, n, m) for (ll(i) = (m); (i) < (n); ++(i))
+#define REP(i, n) FOR(i, n, 0)
+#define OF64 std::setprecision(10)
+
+const ll MOD = 1000000007;
+const ll INF = (ll)1e15;
 
 class BinaryIndexTree
 {
@@ -57,3 +68,27 @@ class BinaryIndexTree
     ll mN;
     ll mPow;
 };
+
+int main()
+{
+    ll Q;
+    cin >> Q;
+    BinaryIndexTree bit(200000);
+    REP(i, Q)
+    {
+        ll t, x;
+        cin >> t >> x;
+        if (t == 1)
+        {
+            bit.add(x, 1);
+        }
+        else if (t == 2)
+        {
+            ll v = bit.lowerBound(x);
+            cout << v << endl;
+            bit.add(v, -1);
+        }
+    }
+
+    return 0;
+}
