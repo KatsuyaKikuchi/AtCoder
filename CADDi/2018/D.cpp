@@ -11,17 +11,24 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
+ll a[100005];
+
 int main()
 {
-    ll N, H, W;
-    cin >> N >> H >> W;
-    ll ans = 0;
+
+    int N;
+    cin >> N;
     REP(i, N)
     {
-        ll a, b;
-        cin >> a >> b;
-        if (a >= H && b >= W)
-            ans++;
+        cin >> a[i];
+    }
+    string ans = "second";
+    REP(i, N)
+    {
+        if (a[i] % 2 == 1)
+        {
+            ans = "first";
+        }
     }
     cout << ans << endl;
     return 0;
