@@ -3,13 +3,7 @@
 //!エラトステネスの篩で素数リストを構築
 struct PrimeList
 {
-    PrimeList()
-    {
-        mPrimeList.clear();
-    }
-
-    //! nまでの整数リストを構築
-    void init(int n)
+    PrimeList(ll n)
     {
         vector<bool> isPrime(n, true);
         isPrime[0] = isPrime[1] = false;
