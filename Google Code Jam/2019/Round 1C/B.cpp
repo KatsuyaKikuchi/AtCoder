@@ -13,8 +13,7 @@ const ll INF = (ll)1e15;
 const int SIZE = 5;
 
 int S[SIZE] = {119, 23, 5, 1, 0};
-//int S[SIZE] ={23,5,1,0};
-//int S[SIZE] = {5, 1, 0};
+
 string dfs(vector<int> v, int t = 0)
 {
     string ret = "";
