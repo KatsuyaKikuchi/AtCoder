@@ -11,16 +11,16 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-string S[25];
-
 int main()
 {
-    int N, M;
-    cin >> N >> M;
-    REP(i, N)
+    ll S;
+    cin >> S;
+    REP(i, 9)
     {
-        cin >> S[i];
+        ll s;
+        cin >> s;
+        S -= s;
     }
-
+    cout << S << endl;
     return 0;
 }

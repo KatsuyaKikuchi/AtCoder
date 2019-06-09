@@ -13,8 +13,19 @@ const ll INF = (ll)1e15;
 
 int main()
 {
-    int L, A, B, C, D;
-    cin >> L >> A >> B >> C >> D;
-    cout << L - std::max((A + C - 1) / C, (B + D - 1) / D) << endl;
+    ll P = INF, D = INF;
+    REP(i, 3)
+    {
+        ll p;
+        cin >> p;
+        P = std::min(P, p);
+    }
+    REP(i, 2)
+    {
+        ll d;
+        cin >> d;
+        D = std::min(D, d);
+    }
+    cout << P + D - 50 << endl;
     return 0;
 }

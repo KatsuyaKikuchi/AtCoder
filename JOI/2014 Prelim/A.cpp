@@ -11,16 +11,15 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-string S[25];
-
 int main()
 {
-    int N, M;
-    cin >> N >> M;
-    REP(i, N)
+    ll S = 0;
+    REP(i, 5)
     {
-        cin >> S[i];
+        ll s;
+        cin >> s;
+        S += std::max(40LL, s);
     }
-
+    cout << S / 5 << endl;
     return 0;
 }
