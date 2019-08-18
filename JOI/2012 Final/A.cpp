@@ -11,46 +11,36 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-int N;
-int A[100005];
-
-int calc(int odd, int even)
-{
-    ll m = 0;
-    int s = 0, e = -1;
-    REP(i, N)
-    {
-        if (!(i % 2 == 0 && A[i] == even) &&
-            !(i % 2 == 1 && A[i] == odd))
-        {
-            if (i == 0 || A[i] != A[i - 1])
-            {
-                e = i;
-            }
-            else
-            {
-                s = e + 1;
-                e = i;
-            }
-        }
-        m = std::max(m, i - s + 1);
-    }
-    return m;
-}
+ll A[1000005];
+string S;
 
 int main()
 {
-    cin >> N;
+    cin >> S;
+    ll N = S.length();
+    memset(A, 0, sizeof(A));
     REP(i, N)
     {
-        cin >> A[i];
+        if (i == 0 || S[N - i - 1] != S[N - i])
+            A[N - i - 1] = 1;
+        else
+            A[N - i - 1] += A[N - i] + 1;
     }
 
-    int m = 0;
-    //! 偶数番目を1にする変換の最大値
-    m = std::max(m, calc(0, 1));
-    //! 偶数番目を0にする変換の最大値
-    m = std::max(m, calc(1, 0));
-    cout << m << endl;
+    ll ans = 0;
+    REP(i, N)
+    {
+        if (S[i] != 'J')
+            continue;
+        ll n = A[i];
+        ll m = i + n;
+        if (m >= N || S[m] != 'O' || A[m] != n)
+            continue;
+        m += n;
+        if (m >= N || S[m] != 'I' || A[m] < n)
+            continue;
+        ans = std::max(ans, n);
+    }
+    cout << ans << endl;
     return 0;
 }
