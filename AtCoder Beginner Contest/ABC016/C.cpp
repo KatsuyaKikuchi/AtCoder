@@ -13,17 +13,19 @@ const ll INF = (ll)1e15;
 
 struct Vertex
 {
-    vector<int> node;
+    vector<ll> node;
 };
+
 Vertex V[15];
+bool U[15];
 
 int main()
 {
-    int N, M;
+    ll N, M;
     cin >> N >> M;
     REP(i, M)
     {
-        int a, b;
+        ll a, b;
         cin >> a >> b;
         a--;
         b--;
@@ -33,26 +35,28 @@ int main()
 
     REP(i, N)
     {
-        vector<int> n;
-        vector<bool> v(N, false);
-        REP(j, V[i].node.size())
+        ll sum = 0;
+        queue<pll> q;
+        q.push(pll(i, 0));
+        memset(U, 0, sizeof(U));
+        U[i] = true;
+        while (!q.empty())
         {
-            int m = V[i].node[j];
-            n.push_back(m);
-            v[m] = true;
-        }
-        v[i] = true;
-
-        int sum = 0;
-        REP(j, n.size())
-        {
-            REP(k, V[n[j]].node.size())
+            pll t = q.front();
+            q.pop();
+            ll cost = t.second + 1;
+            REP(j, V[t.first].node.size())
             {
-                int x = V[n[j]].node[k];
-                if (v[x])
+                ll n = V[t.first].node[j];
+                if (U[n])
                     continue;
-                v[x] = true;
-                sum++;
+                U[n] = true;
+                if (cost >= 2)
+                {
+                    sum++;
+                    continue;
+                }
+                q.push(pll(n, cost));
             }
         }
         cout << sum << endl;
