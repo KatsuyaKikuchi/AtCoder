@@ -29,7 +29,7 @@ struct Combination
     ll modpow(ll n)
     {
         ll s = 1, p = n;
-        for (ll i = 0; (1 << i) <= MOD - 2; ++i, p = (p * p) % MOD)
+        for (ll i = 0; (1LL << i) <= MOD - 2; ++i, p = (p * p) % MOD)
         {
             if (((MOD - 2) & (1 << i)) == 0)
                 continue;
