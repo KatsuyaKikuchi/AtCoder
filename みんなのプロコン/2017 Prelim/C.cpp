@@ -11,79 +11,85 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-int N, K;
-int A[100005];
-pair<string, int> S[100005];
-
-string solve()
-{
-    if (N == K)
-        return "";
-    sort(A, A + K);
-    sort(S, S + N, [](pair<string, int> a, pair<string, int> b) { return a.first < b.first; });
-    int f = N, l = 0;
-    REP(i, N)
-    {
-        if (*lower_bound(A, A + K, S[i].second) == S[i].second)
-        {
-            f = std::min(f, (int)i);
-            l = std::max(l, (int)i);
-        }
-    }
-    if (l - f + 1 != K)
-        return "-1";
-
-    int fn = 0;
-    if (f > 0)
-    {
-        REP(i, std::min(S[f - 1].first.length(), S[f].first.length()))
-        {
-            if (S[f].first[i] != S[f - 1].first[i])
-                break;
-            fn++;
-        }
-    }
-    int ln = 0;
-    if (l < N - 1)
-    {
-        REP(i, std::min(S[l + 1].first.length(), S[l].first.length()))
-        {
-            if (S[l].first[i] != S[l + 1].first[i])
-                break;
-            ln++;
-        }
-    }
-    int mn = std::max(ln, fn) + 1;
-    string ans = "";
-    string fs = S[f].first;
-    string ls = S[l].first;
-    if (std::min(fs.length(), ls.length()) < mn)
-        return "-1";
-    REP(i, mn)
-    {
-        if (fs[i] != ls[i])
-            return "-1";
-        ans.push_back(fs[i]);
-    }
-    return ans;
-}
+ll A[100005];
+string S[100005];
+bool U[100005];
 
 int main()
 {
-
+    ll N, K;
     cin >> N >> K;
     REP(i, K)
     {
         cin >> A[i];
         A[i]--;
     }
-    A[K] = INF;
-
     REP(i, N)
     {
-        cin >> S[i].first;
-        S[i].second = i;
+        cin >> S[i];
     }
-    cout << solve() << endl;
+    if (N == K)
+    {
+        cout << "" << endl;
+        return 0;
+    }
+    vector<string> v, u;
+    sort(A, A + K);
+    int index = 0;
+    REP(i, N)
+    {
+        if (index < K && A[index] == i)
+        {
+            v.push_back(S[i]);
+            index++;
+        }
+        else
+        {
+            u.push_back(S[i]);
+        }
+    }
+
+    string s = "";
+    REP(n, v[0].length())
+    {
+        bool e = true;
+        REP(i, v.size())
+        {
+            if (v[i].length() <= n || v[0][n] != v[i][n])
+            {
+                e = false;
+                break;
+            }
+        }
+        if (!e)
+            break;
+        s.push_back(v[0][n]);
+    }
+    ll max = 0;
+    REP(i, u.size())
+    {
+        ll m = u[i].size() + 1;
+        REP(j, s.size())
+        {
+            if (u[i].size() <= j || u[i][j] != s[j])
+            {
+                m = j + 1;
+                break;
+            }
+        }
+        max = std::max(max, m);
+    }
+
+    if (max > s.length())
+        cout << -1 << endl;
+    else
+    {
+        REP(i, max)
+        {
+            cout << s[i];
+        }
+        cout << endl;
+    }
+
     return 0;
 }
