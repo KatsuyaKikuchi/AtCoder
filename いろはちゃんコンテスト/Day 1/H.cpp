@@ -11,45 +11,64 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-ll sumn(ll n)
+ll get(ll n)
 {
-    ll sum = 0;
+    ll s = 0;
     while (n > 0)
     {
-        sum += n % 10;
+        s += n % 10;
         n /= 10;
     }
-    return sum;
+    return s;
 }
 
 int main()
 {
     ll N;
     cin >> N;
-    ll sum = sumn(N);
-    ll ans = 0;
-    ll t = 1;
+    ll sum = get(N);
+
+    vector<int> a;
     while (sum > 0)
     {
-        ll s = std::min(9LL, sum);
-        sum -= s;
-        ans += t * s;
-        t *= 10;
+        ll m = std::min(9LL, sum);
+        a.push_back(m);
+        sum -= m;
     }
 
-    if (ans == N)
+    ll s = 0;
+    REP(i, a.size())
     {
-        while (true)
+        s += a[i] * pow(10LL, i);
+    }
+
+    if (s == N)
+    {
+        a.push_back(0);
+        FOR(i, a.size(), 1)
         {
-            if (t == 1 || (ans / t) % 10 == 9)
+            ll n = a.size() - 1 - i;
+            if (a[n] == 9 || (a[n+1] != 0)||n==0)
             {
-                ans -= t;
-                ans += t * 10;
+                a[n+1]++;
+                a[n]--;
                 break;
             }
-            t /= 10;
         }
+
+        REP(i, a.size())
+        {
+            ll n = a.size() - 1 - i;
+            if (a[n] == 0&&n==a.size()-1)
+                continue;
+            cout << a[n];
+        }
+        cout << endl;
     }
-    cout << ans << endl;
+    else
+    {
+        cout << s << endl;
+    }
+
     return 0;
 }
