@@ -16,64 +16,44 @@ bool L[200005];
 int main()
 {
     ll N;
-    cin >> N;
     string S;
-    cin >> S;
+    cin >> N >> S;
     memset(L, 0, sizeof(L));
-    ll s = 0;
-    bool e = true;
+    ll l = 0;
     REP(i, 2 * N)
     {
-        if (S[i] == 'B')
+        if (l % 2 == 0 && S[i] == 'B')
         {
-            if (s % 2 == 0)
-            {
-                L[i] = true;
-                s++;
-            }
-            else
-            {
-                s--;
-            }
+            L[i] = true;
+            l++;
+        }
+        else if (l % 2 == 1 && S[i] == 'W')
+        {
+            L[i] = true;
+            l++;
         }
         else
-        {
-            if (s % 2 == 0)
-            {
-                s--;
-            }
-            else
-            {
-                L[i] = true;
-                s++;
-            }
-        }
-        if (s < 0)
-            e = false;
+            l--;
+    }
+    if (l != 0)
+    {
+        cout << 0 << endl;
+        return 0;
     }
 
     ll ans = 1;
-    s = 0;
-    for (int i = 2 * N - 1; i >= 0; --i)
+    ll r = 0;
+    REP(i, 2 * N)
     {
-        if (L[i])
-        {
-            ans *= s;
-            s--;
-        }
+        if (!L[2 * N - 1 - i])
+            r++;
         else
-            s++;
-        ans %= MOD;
+            ans = (ans * r--) % MOD;
     }
-
     REP(i, N)
     {
-        ans *= (i + 1);
-        ans %= MOD;
+        ans = (ans * (i + 1)) % MOD;
     }
-    if (!e)
-        cout << 0 << endl;
-    else
-        cout << ans << endl;
+    cout << ans << endl;
     return 0;
 }

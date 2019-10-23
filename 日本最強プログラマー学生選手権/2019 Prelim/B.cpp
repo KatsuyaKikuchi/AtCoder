@@ -12,40 +12,31 @@ const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
 ll A[2005];
-ll B[2005];
-ll C[2005];
 
 int main()
 {
     ll N, K;
     cin >> N >> K;
+    ll ans = 0;
     REP(i, N)
     {
         cin >> A[i];
     }
-
-    memset(B, 0, sizeof(B));
-    memset(C, 0, sizeof(C));
     REP(i, N)
     {
-        FOR(j, N, i + 1)
-        {
-            if (A[i] > A[j])
-                B[i]++;
-        }
+        ll a = 0;
         REP(j, N)
         {
             if (A[i] > A[j])
-                C[i]++;
+                a++;
         }
-    }
-
-    ll ans = 0;
-    ll mul = K * (K - 1) / 2;
-    mul %= MOD;
-    REP(i, N)
-    {
-        ans += (B[i] * K) % MOD + (mul * C[i]) % MOD;
+        ll b = 0;
+        FOR(j, N, i + 1)
+        {
+            if (A[i] > A[j])
+                b++;
+        }
+        ans += b * K + ((K * (K - 1) / 2) % MOD) * a;
         ans %= MOD;
     }
     cout << ans << endl;

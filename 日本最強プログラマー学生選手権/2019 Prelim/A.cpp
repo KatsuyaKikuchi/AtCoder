@@ -20,11 +20,11 @@ int main()
     {
         REP(j, D)
         {
-            ll m = i + 1;
-            ll d = j + 1;
-            ll d1 = d % 10;
-            ll d2 = d / 10;
-            if (d1 >= 2 && d2 >= 2 && d1 * d2 == m)
+            ll d0 = (j + 1) % 10;
+            ll d1 = (j + 1) / 10;
+            if (d0 < 2 || d1 < 2)
+                continue;
+            if (d0 * d1 == (i + 1))
                 ans++;
         }
     }
