@@ -11,13 +11,12 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-ll A[100005];
 pll B[100005];
-
 int main()
 {
     ll N, M;
     cin >> N >> M;
+    vector<ll> A(N);
     REP(i, N)
     {
         cin >> A[i];
@@ -26,32 +25,15 @@ int main()
     {
         cin >> B[i].first >> B[i].second;
     }
-    sort(A, A + N);
     sort(B, B + M, [](pll a, pll b) { return a.second > b.second; });
-
-    int index = 0;
-    REP(i, M)
+    ll index = 0;
+    REP(i, N)
     {
-        bool f = false;
-        REP(j, B[i].first)
-        {
-            if (A[index] < B[i].second)
-            {
-                A[index++] = B[i].second;
-            }
-            else
-            {
-                f = true;
-            }
-            if (index == N)
-                f = true;
-            if (f)
-                break;
-        }
-        if (f)
-            break;
+        A.push_back(B[index].second);
+        if (--B[index].first <= 0)
+            index++;
     }
-
+    sort(A.begin(), A.end(), [](ll a, ll b) { return a > b; });
     ll sum = 0;
     REP(i, N)
     {

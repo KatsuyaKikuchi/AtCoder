@@ -11,29 +11,36 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-ll S[100005];
+//! 3^n%MOD
+ll P[100005];
 
 int main()
 {
-    ll N, M;
-    cin >> N >> M;
-    memset(S, 0, sizeof(S));
-    REP(i, M)
-    {
-        ll l, r;
-        cin >> l >> r;
-        S[l - 1]++;
-        S[r]--;
-    }
+    string L;
+    cin >> L;
+    ll N = L.length();
+
+    ll ans = 1;
     REP(i, N)
     {
-        S[i + 1] += S[i];
+        ans = (ans * 3LL) % MOD;
     }
-    ll ans = 0;
+    P[0] = 1;
     REP(i, N)
     {
-        if (S[i] >= M)
-            ans++;
+        P[i + 1] = (P[i] * 3LL) % MOD;
+    }
+
+    ll t = 1;
+    REP(i, N)
+    {
+        if (L[i] == '1')
+        {
+            t = (t * 2LL) % MOD;
+            continue;
+        }
+
+        ans = (ans + MOD - (t * 2LL * P[N - 1 - i]) % MOD) % MOD;
     }
     cout << ans << endl;
     return 0;
