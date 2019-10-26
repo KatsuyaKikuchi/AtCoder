@@ -13,7 +13,7 @@ const ll INF = (ll)1e15;
 
 class BinaryIndexTree
 {
-  public:
+public:
     BinaryIndexTree(int n)
         : mN(n)
     {
@@ -44,75 +44,71 @@ class BinaryIndexTree
             node[i] += value;
     }
 
-  private:
+private:
     vector<ll> node;
     ll mN;
 };
 
-ll C[30];
-stack<ll> T[30];
-ll N[200005];
+bool U[200005];
+queue<ll> P[30];
+ll Q[30];
 
 int main()
 {
     string S;
     cin >> S;
-    memset(C, 0, sizeof(C));
-    REP(i, S.length())
+    ll N = S.length();
+    memset(Q, 0, sizeof(Q));
+    REP(i, N)
     {
-        C[S[i] - 'a']++;
-        T[S[i] - 'a'].push(i);
+        Q[S[i] - 'a']++;
     }
-    int odd = 0, even = 0;
-    REP(i, 26)
+    ll odd = 0;
+    int oddChar = -1;
+    REP(i, 30)
     {
-        if (C[i] % 2 == 0)
-            even++;
-        else
+        if (Q[i] % 2 == 1)
+        {
             odd++;
+            oddChar = i;
+        }
+        Q[i] /= 2;
     }
-    if (odd > 1 || (odd == 1 && S.length() % 2 == 0))
+    if (odd > N % 2)
     {
         cout << -1 << endl;
         return 0;
     }
-    memset(N, 0, sizeof(N));
-    int cnt = 0;
-    REP(i, S.length())
+    memset(U, 0, sizeof(U));
+    string A = "", B = "";
+    ll ans = 0;
+    REP(i, N)
     {
-        if (N[i] > 0)
-            continue;
-        FOR(j, S.length(), i)
+        if (Q[S[i] - 'a'] > 0)
         {
-            if (C[S[j] - 'a'] >= 2)
-            {
-                N[j] = cnt + 1;
-                ll last = T[S[j] - 'a'].top();
-                T[S[j] - 'a'].pop();
-                N[last] = S.length() - cnt;
-                C[S[j] - 'a'] -= 2;
-                cnt++;
-                break;
-            }
+            A.push_back(S[i]);
+            Q[S[i] - 'a']--;
+            ans += B.length();
+        }
+        else
+        {
+            B.push_back(S[i]);
         }
     }
-    REP(i, 26)
+    if (oddChar >= 0)
+        A.push_back('a' + oddChar);
+    REP(i, A.length())
     {
-        if (C[i] == 0)
-            continue;
-        ll j = T[i].top();
-        N[j] = S.length() / 2 + 1;
-        break;
+        P[A[i] - 'a'].push(i + 1);
     }
-
-    BinaryIndexTree bit(S.length());
-
-    ll sum = 0;
-    REP(i, S.length())
+    BinaryIndexTree bit(N);
+    REP(i, B.length())
     {
-        sum += i - bit.sum(N[i]);
-        bit.add(N[i], 1);
+        ll t = P[B[B.length() - 1 - i] - 'a'].front();
+        P[B[B.length() - 1 - i] - 'a'].pop();
+        ans += i - bit.sum(t);
+        bit.add(t, 1);
     }
-    cout << sum << endl;
+    cout << ans << endl;
     return 0;
 }
