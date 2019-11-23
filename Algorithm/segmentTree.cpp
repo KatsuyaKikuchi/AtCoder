@@ -3,7 +3,7 @@
 //! Range Minimum Query用 SegmentTree
 class SegmentTree
 {
-  public:
+public:
     SegmentTree(int n)
     {
         ll cnt = 1;
@@ -48,8 +48,8 @@ class SegmentTree
         }
     }
 
-  private:
+private:
     ll mN;
     vector<ll> node;
-    const ll inf = (1LL << 31) - 1LL;
+    const ll inf = (ll)1e15;
 };
