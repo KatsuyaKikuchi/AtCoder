@@ -11,73 +11,45 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-ll S[1000005];
-ll N;
-ll D[25];
-ll E[25];
-
-string solve()
-{
-    ll M = pow(2, N);
-    sort(S, S + M, [](ll a, ll b) { return a > b; });
-    ll n = 0;
-    bool f = true;
-    memset(E, 0, sizeof(E));
-    E[N] = 1;
-    REP(i, M)
-    {
-        n++;
-        if (i < M - 1 && S[i] == S[i + 1])
-            continue;
-        if (f)
-        {
-            f = false;
-            if (n > 1)
-                return "No";
-            n = 0;
-            continue;
-        }
-        //cout << n << endl;
-        memset(D, 0, sizeof(D));
-        for (int j = N; j > 0; --j)
-        {
-            ll m = std::min(E[j], n);
-            E[j] -= m;
-            //! 今回生成したやつ
-            D[j - 1] += m;
-            //! 前回のが降りてきたやつ
-            E[j - 1] += m;
-            n -= m;
-        }
-        REP(j, N + 1)
-        {
-            E[j] += D[j];
-        }
-        // REP(j, N + 1)
-        // {
-        //     cout << E[j] << " ";
-        // }
-        // cout << endl;
-
-        if (n > 0)
-            return "No";
-    }
-    FOR(i, N + 1, 1)
-    {
-        if (E[i] > 0)
-            return "No";
-    }
-    return "Yes";
-}
-
 int main()
 {
+    ll N;
     cin >> N;
-    ll M = pow(2, N);
-    REP(i, M)
+    vector<ll> S;
+    ll p = pow(2LL, N);
+    REP(i, p)
     {
-        cin >> S[i];
+        ll s;
+        cin >> s;
+        S.push_back(s);
     }
-    cout << solve() << endl;
+    sort(S.begin(), S.end(), [](ll a, ll b) { return a > b; });
+    priority_queue<pll, vector<pll>, function<bool(pll, pll)>> q([](pll a, pll b) { return a.second == b.second ? a.first < b.first : a.second < b.second; });
+    q.push(pll(S[0], N));
+    multiset<ll> set;
+    REP(i, p - 1)
+    {
+        set.insert(-S[i + 1]);
+    }
+    set.insert(0);
+    while (!q.empty())
+    {
+        pll t = q.top();
+        q.pop();
+        if (t.second == 0)
+            continue;
+
+        auto n = set.lower_bound(-t.first + 1);
+        // cout << t.first << " " << -(*n) << endl;
+        if (*n == 0)
+        {
+            cout << "No" << endl;
+            return 0;
+        }
+        set.erase(n);
+        q.push(pll(-(*n), t.second - 1));
+        q.push(pll(t.first, t.second - 1));
+    }
+    cout << "Yes" << endl;
     return 0;
 }

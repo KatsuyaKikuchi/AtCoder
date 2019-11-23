@@ -11,31 +11,35 @@ typedef pair<ll, ll> pll;
 const ll MOD = 1000000007;
 const ll INF = (ll)1e15;
 
-ll A[5][30];
+ll C[25];
+ll A[25];
+
 int main()
 {
     ll N;
     cin >> N;
-    REP(i, 3)
-    {
-        REP(j, N)
-        {
-            cin >> A[i][j];
-        }
-    }
-
-    ll s = 0;
+    ll ans = 0;
     REP(i, N)
     {
-        s += A[1][i];
-        if (i > 0)
-        {
-            if (A[0][i] == A[0][i - 1] + 1)
-            {
-                s += A[2][A[0][i - 1] - 1];
-            }
-        }
+        ll a;
+        cin >> a;
+        A[a - 1] = i;
     }
-    cout << s << endl;
+    REP(i, N)
+    {
+        ll b;
+        cin >> b;
+        ans += b;
+    }
+    REP(i, N - 1)
+    {
+        cin >> C[i];
+    }
+    FOR(i, N, 1)
+    {
+        if (A[i] == A[i - 1] + 1)
+            ans += C[i - 1];
+    }
+    cout << ans << endl;
     return 0;
 }

@@ -13,30 +13,21 @@ const ll INF = (ll)1e15;
 
 int main()
 {
-    ll N, K;
-    cin >> N >> K;
     string S;
     cin >> S;
-
-    ll L = 0, R = 0;
-    ll sum = 0;
+    ll N;
+    cin >> N;
     REP(i, N)
     {
-        if (i == 0 || S[i - 1] != S[i])
+        ll l, r;
+        cin >> l >> r;
+        l--;
+        r--;
+        while (l < r)
         {
-            if (S[i] == 'L')
-                L++;
-            else
-                R++;
-        }
-        else
-        {
-            sum++;
+            swap(S[l++], S[r--]);
         }
     }
-
-    ll f = std::min(L, R);
-    ll ans = std::min(N - 1, sum + std::min(f, K) * 2);
-    cout << ans << endl;
+    cout << S << endl;
     return 0;
 }
